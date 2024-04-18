@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DialogScreen : MonoBehaviour {
 
+	private DialogItem _currentItem;
+
 	public GameObject Container;
 
 	public TMP_Text TextBox;
@@ -14,7 +16,7 @@ public class DialogScreen : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
-
+		EndDialog();
 	}
 
 	// Update is called once per frame
@@ -29,16 +31,28 @@ public class DialogScreen : MonoBehaviour {
 
 		//for schleife
 		for(int i = 0; i < Buttons.Count; i++) {
-			if(i < item.Options.Count){
+			if(i < item.Options.Count) {
 				Buttons[i].SetActive(true);
 				Buttons[i].GetComponentInChildren<TMP_Text>().text = item.Options[i].Text;
-			}else{
+			} else {
 				Buttons[i].SetActive(false);
 			}
 		}
+
+		_currentItem = item;
 	}
 
 	public void EndDialog() {
 		Container.SetActive(false);
+	}
+
+	public void ChooseOption(int index) {
+		DialogOption option = _currentItem.Options[index];
+
+		if(option.NextDialog != null) {
+			StartDialog(option.NextDialog);
+		} else {
+			EndDialog();
+		}
 	}
 }

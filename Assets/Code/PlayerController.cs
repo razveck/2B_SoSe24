@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour {
 		//holen ein Vector2 aus dem _look
 		Vector2 lookInput = _look.ReadValue<Vector2>();
 		Vector3 cameraRotation = Camera.rotation.eulerAngles;
-		_cameraXRotation += lookInput.y;
+		_cameraXRotation -= lookInput.y;
 		_cameraXRotation = Mathf.Clamp(_cameraXRotation, 0, 90);
 
 		cameraRotation.x = _cameraXRotation;
@@ -99,14 +99,21 @@ public class PlayerController : MonoBehaviour {
 
 		//interactable gedöns
 		Interactable inter = other.GetComponent<Interactable>();
-		if(inter != null)
+		if(inter != null) {
+			if(CurrentInteractable != null)
+				CurrentInteractable.Unhighlight();
+
 			CurrentInteractable = inter;
+			CurrentInteractable.Highlight();
+		}
 	}
 
 	private void OnTriggerExit(Collider other) {
 		Interactable inter = other.GetComponent<Interactable>();
-		if(inter != null)
+		if(inter != null) {
+			inter.Unhighlight();
 			CurrentInteractable = null;
+		}
 	}
 
 
