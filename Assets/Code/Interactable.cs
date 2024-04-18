@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour {
 	
+	public DialogScreen DialogScreen;
+	public DialogItem Item;
+
 	public void Interact(){
-		Debug.Log("INTERACT");
+		DialogScreen.StartDialog(Item);
 	}
 
 }
