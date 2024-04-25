@@ -19,11 +19,7 @@ public class DialogScreen : MonoBehaviour {
 		EndDialog();
 	}
 
-	// Update is called once per frame
-	void Update() {
-
-	}
-
+	
 	public void StartDialog(DialogItem item) {
 		Container.SetActive(true);
 
@@ -48,6 +44,9 @@ public class DialogScreen : MonoBehaviour {
 
 	public void ChooseOption(int index) {
 		DialogOption option = _currentItem.Options[index];
+
+		//Invoke = Auslösen
+		option.OnOptionSelected.Invoke();
 
 		if(option.NextDialog != null) {
 			StartDialog(option.NextDialog);
