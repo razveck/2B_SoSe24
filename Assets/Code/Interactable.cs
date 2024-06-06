@@ -7,9 +7,6 @@ public class Interactable : MonoBehaviour {
 	
 	private MeshRenderer _renderer;
 
-	public DialogScreen DialogScreen;
-	public DialogItem Item;
-
 	public Material NormalMaterial;
 	public Material HighlightMaterial;
 
@@ -21,8 +18,6 @@ public class Interactable : MonoBehaviour {
 
 	public void Interact(){
 		OnInteracted.Invoke();
-
-		DialogScreen.StartDialog(Item);
 	}
 
 	public void Highlight(){
@@ -32,9 +27,4 @@ public class Interactable : MonoBehaviour {
 	public void Unhighlight(){
 		_renderer.material = NormalMaterial;
 	}
-
-	public void SetDialog(DialogItem newItem){
-		Item = newItem;
-	}
-
 }

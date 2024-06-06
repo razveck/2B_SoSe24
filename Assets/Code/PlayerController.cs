@@ -33,7 +33,17 @@ public class PlayerController : MonoBehaviour {
 		_look = PlayerInput.actions.FindAction("Look");
 		_interact = PlayerInput.actions.FindAction("Interact");
 		_cameraXRotation = Camera.rotation.eulerAngles.x;
+
+		//wenn Player dynamisch spawnt
+		//DialogScreen dialogScreen = FindFirstObjectByType<DialogScreen>();
+		//dialogScreen.DialogOpen.AddListener(DisableInput);
 	}
+
+	//wenn Player dynamisch spawnt
+	//private void OnDestroy() {
+	//	DialogScreen dialogScreen = FindFirstObjectByType<DialogScreen>();
+	//	dialogScreen.DialogOpen.RemoveListener(DisableInput);
+	//}
 
 	// Update is called once per frame
 	void Update() {
@@ -117,6 +127,10 @@ public class PlayerController : MonoBehaviour {
 			inter.Unhighlight();
 			CurrentInteractable = null;
 		}
+	}
+
+	public void DisableInput(bool disabled) {
+		PlayerInput.enabled = !disabled; //invert bool
 	}
 
 

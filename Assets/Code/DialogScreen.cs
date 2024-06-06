@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogScreen : MonoBehaviour {
 
@@ -13,12 +14,13 @@ public class DialogScreen : MonoBehaviour {
 
 	public List<GameObject> Buttons;
 
+	public UnityEvent<bool> DialogOpen;
+	
 
 	// Start is called before the first frame update
 	void Start() {
 		EndDialog();
 	}
-
 	
 	public void StartDialog(DialogItem item) {
 		Container.SetActive(true);
@@ -36,10 +38,13 @@ public class DialogScreen : MonoBehaviour {
 		}
 
 		_currentItem = item;
+
+		DialogOpen.Invoke(true);
 	}
 
 	public void EndDialog() {
 		Container.SetActive(false);
+		DialogOpen.Invoke(false);
 	}
 
 	public void ChooseOption(int index) {
