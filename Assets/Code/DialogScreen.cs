@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +16,9 @@ public class DialogScreen : MonoBehaviour {
 	public List<GameObject> Buttons;
 
 	public UnityEvent<bool> DialogOpen;
+
+	//event emitter
+	public StudioEventEmitter Emitter;
 	
 
 	// Start is called before the first frame update
@@ -40,11 +44,16 @@ public class DialogScreen : MonoBehaviour {
 		_currentItem = item;
 
 		DialogOpen.Invoke(true);
+
+		
+		Emitter.EventInstance.setParameterByName("Rain", 0);
 	}
 
 	public void EndDialog() {
 		Container.SetActive(false);
 		DialogOpen.Invoke(false);
+
+		Emitter.EventInstance.setParameterByName("Rain", 1);
 	}
 
 	public void ChooseOption(int index) {
