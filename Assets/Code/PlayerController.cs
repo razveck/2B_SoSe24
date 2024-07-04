@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour {
 
 	public float Gravity = -9.8f; // m/s/s
 
+	public float RotationSpeed = 0.5f;
+
 	public Interactable CurrentInteractable;
 
 
@@ -72,7 +74,20 @@ public class PlayerController : MonoBehaviour {
 
 		Camera.eulerAngles = cameraRotation;
 
-		transform.Rotate(0, lookInput.x, 0);
+		//per default wird Space.Self benutzt (also die lokale Achse)
+		Camera.Rotate(0, lookInput.x, 0, Space.World);
+
+
+
+		if(moveInput != Vector2.zero) {
+			Vector3 cameraForward = Camera.forward; //wert kopieren
+			cameraForward.y = 0;
+			cameraForward.Normalize(); //Vektor-Länge zu 1 machen
+
+			transform.forward = Vector3.Lerp(transform.forward, cameraForward, RotationSpeed);
+		}
+
+		Camera.position = transform.position;
 
 		/*Kamera positions selber berechnen
 		//radiant (rad)
@@ -97,6 +112,7 @@ public class PlayerController : MonoBehaviour {
 
 		if(_interact.WasPressedThisFrame() && CurrentInteractable != null)
 			CurrentInteractable.Interact();
+
 	}
 
 	private void OnTriggerEnter(Collider other) {
