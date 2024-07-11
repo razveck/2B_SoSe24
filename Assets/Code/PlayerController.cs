@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
 	public CharacterController Controller;
 	public Transform Camera;
 	public Animator Animator;
+	public FootstepPlayer Footsteps;
 
 
 	public float Speed = 10f;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour {
 	public float RotationSpeed = 0.5f;
 
 	public Interactable CurrentInteractable;
+
 
 
 	// Start is called before the first frame update
@@ -135,6 +137,13 @@ public class PlayerController : MonoBehaviour {
 			CurrentInteractable = inter;
 			CurrentInteractable.Highlight();
 		}
+
+		if(other.CompareTag(Footsteps.concreteSound)){
+			Footsteps.footstepInstance.setParameterByNameWithLabel("Untergründe", Footsteps.concreteSound);
+		}
+		else if(other.CompareTag(Footsteps.forestSound)){
+			Footsteps.footstepInstance.setParameterByNameWithLabel("Untergründe", Footsteps.forestSound);
+		}
 	}
 
 	private void OnTriggerExit(Collider other) {
@@ -142,6 +151,11 @@ public class PlayerController : MonoBehaviour {
 		if(inter != null) {
 			inter.Unhighlight();
 			CurrentInteractable = null;
+		}
+
+		//concrete ODER forest
+		if(other.CompareTag(Footsteps.concreteSound) || other.CompareTag(Footsteps.forestSound)){
+			Footsteps.footstepInstance.setParameterByNameWithLabel("Untergründe", Footsteps.defaultSound);
 		}
 	}
 
