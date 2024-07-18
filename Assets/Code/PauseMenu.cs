@@ -17,10 +17,12 @@ namespace Assets.Code {
 
 		}
 
-		public void ToMenu(){
-		StartMenu.MusicInstance.setParameterByNameWithLabel("Scene", "Menu");
-
-		SceneManager.LoadScene(0);
+		public void ToMenu() {
+			StartMenu.MusicInstance.setParameterByNameWithLabel("Scene", "Menu");
+			LoadingManager manager = FindObjectOfType<LoadingManager>(true);
+			manager.UnloadAndLoad(1, 0);
 		}
+
+		
 	}
 }

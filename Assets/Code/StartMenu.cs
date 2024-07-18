@@ -13,6 +13,7 @@ public class StartMenu : MonoBehaviour {
 	const string masterVolumePref = "MasterVolume";
 
 	public static EventInstance MusicInstance;
+	static bool hasLoadingScreen;
 
 	public EventReference MusicEvent;
 
@@ -23,6 +24,11 @@ public class StartMenu : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
+		if(!hasLoadingScreen)
+			SceneManager.LoadScene("LoadingScreen", LoadSceneMode.Additive);
+
+		hasLoadingScreen = true;
+
 		if(!MusicInstance.hasHandle()) {
 			MusicInstance = RuntimeManager.CreateInstance(MusicEvent);
 			MusicInstance.start();
@@ -49,7 +55,7 @@ public class StartMenu : MonoBehaviour {
 	public void StartGame() {
 		MusicInstance.setParameterByNameWithLabel("Scene", "Level");
 
-		SceneManager.LoadScene(1);
+		FindAnyObjectByType<LoadingManager>(FindObjectsInactive.Include).UnloadAndLoad(0, 1);
 	}
 
 	public void MasterSliderChanged(float value){
